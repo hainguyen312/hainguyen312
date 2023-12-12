@@ -1,6 +1,6 @@
     var api = "https://gateway.holdstation.com/services/launchpad/api/staking/wallets?list=";
     var fetchInProgress = false;
-
+    var input,inputArray;
     // Load watchlist from localStorage
     var watchlist = JSON.parse(localStorage.getItem('watchlist')) || [];
 
@@ -14,8 +14,8 @@
         return;
       }
 
-      var input = document.getElementById("Input").value;
-      var inputArray = input.split(",");
+      input = document.getElementById("Input").value;
+      inputArray = input.split(",");
 
       var resultTable = document.getElementById("result");
 
@@ -80,9 +80,10 @@
     }
 
     function addToWatchlist() {
-      var input = document.getElementById("Input").value.trim();
-      if (input !== '' && !watchlist.includes(input)) {
-        watchlist.push(input);
+      if (inputArray !== '' && !watchlist.includes(input)) {
+        for (let address of inputArray) {
+          watchlist.push(address)
+        }
         updateWatchlist();
         saveWatchlistToLocalStorage();
       }
