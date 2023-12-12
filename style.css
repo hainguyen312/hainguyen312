@@ -1,0 +1,65 @@
+html{
+    background-color: rgb(100, 147, 228)
+}
+
+td,th{
+    padding:15px;
+}
+li{
+    display:flex;
+    justify-content: space-between;
+}
+.delete{
+    background-color: rgb(210, 207, 62);
+    margin-left: 20px;
+}
+
+#result{
+    width: 100%;
+}
+th{
+    background-color: rgb(210, 207, 62);
+    border: none;
+}
+td{
+    background-color: rgb(78, 112, 175);
+}
+body{
+    line-height: 1;
+}
+.nav{
+    display: flex;
+    justify-content: space-between;
+    font-size: 25px;
+}
+.app-container{
+    font-size: 100%;
+    margin-top: 80px;
+    padding: 0;
+    vertical-align: baseline;
+}
+
+.home{
+    width: 100%;
+    max-width: 1024px;
+    margin: 0 auto;
+    padding: 4rem 2rem 2rem;
+}
+
+form{
+    display: flex;
+    margin: 50px 0;
+    justify-content: center;
+}
+.title{
+    margin:20px 0;
+}
+#Input{
+    width: 100%;
+    background-color: rgb(150, 180, 240);
+    border: 1px solid #000;
+}
+button{
+    background-color: rgb(300, 70, 25);
+    border: 1px solid #000;
+}
