@@ -12,16 +12,16 @@
     <div class="nav-container">
         <div class="nav">
             <a href="https://holdstation.com/" style="text-decoration: none; color: #000;">HOLDSTATION </a>
-            <span> CHECK WALLET</span>
         </div>
       </div>
       <div class="app-container">
           <main class="home">
             <div class="search-bar">
+              <h2>Check Wallet</h2>
               <form autocomplete="off">
                 <input id="Input" type="text" placeholder="Search an Address" />
-                <button onclick="returnText()">Search</button>
-                <button onclick="addToWatchlist()">Add to watchlist</button>
+                <button id="searchButton">Search</button>
+                <button id="addToWatchlistButton">Add to watchlist</button>
               </form>
             </div>
             <table id="result"></table>
