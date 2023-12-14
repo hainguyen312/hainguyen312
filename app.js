@@ -2,6 +2,7 @@ var api = "https://gateway.holdstation.com/services/launchpad/api/staking/wallet
 var fetchInProgress = false;
 var input,inputArray;
 var resultTable = document.getElementById("result");
+var errorContainer = document.getElementById("errorContainer");
 
 document.getElementById('searchButton').addEventListener('click', results);
 document.getElementById('addToWatchlistButton').addEventListener('click', addToWatchlist);
@@ -19,29 +20,27 @@ function processAddress(address) {
     // If fetch is in progress, ignore the click
     return;
   }
+  resultTable.innerHTML="";
+  var headerRow = document.createElement("tr");
+  
+  var addressHeader = document.createElement("th");
+  addressHeader.textContent = "Address";
+  headerRow.appendChild(addressHeader);
+  
+  var pendingRewardHeader = document.createElement("th");
+  pendingRewardHeader.textContent = "Pending Reward";
+  headerRow.appendChild(pendingRewardHeader);
+  
+  var harvestedRewardHeader = document.createElement("th");
+  harvestedRewardHeader.textContent = "Harvested Reward";
+  headerRow.appendChild(harvestedRewardHeader);
+  
+  resultTable.appendChild(headerRow);
   fetchInProgress=true;
   fetch(api_address)
     .then(response => response.json())
     .then(data => {
       if (data.length > 0) {
-        resultTable.innerHTML = "";
-        
-        var headerRow = document.createElement("tr");
-        
-        var addressHeader = document.createElement("th");
-        addressHeader.textContent = "Address";
-        headerRow.appendChild(addressHeader);
-        
-        var pendingRewardHeader = document.createElement("th");
-        pendingRewardHeader.textContent = "Pending Reward";
-        headerRow.appendChild(pendingRewardHeader);
-        
-        var harvestedRewardHeader = document.createElement("th");
-        harvestedRewardHeader.textContent = "Harvested Reward";
-        headerRow.appendChild(harvestedRewardHeader);
-        
-        resultTable.appendChild(headerRow);
-
         var dataRow = document.createElement("tr");
 
         var addressCell = document.createElement("td");
@@ -65,24 +64,31 @@ function processAddress(address) {
 
         // Add the address to the watchlist
       } else {
-        alert(`No data found for address: ${address}`);
+        input=document.getElementById("Input");
+        input.style.borderColor="red";
+        var errorDiv =document.createElement("div");
+        errorDiv.style.color = "red";
+        errorDiv.textContent = `Error: No data found for address ${address}`;
+        errorContainer.appendChild(errorDiv);
+        input.parentElement.parentElement.append(errorDivContainer);
       }
     })
     .catch(error => {
-      console.error('Error fetching data:', error);
+      console.error(error);
     });
     fetchInProgress=false;
 }
 
 function results() {
-input = document.getElementById("Input").value.trim();
-inputArray = input.split(",");
+input = document.getElementById("Input");
+inputArray = input.value.trim().split(",");
 console.log(inputArray)
-  for (let address of inputArray) {
-    console.log(address);
-    processAddress(address);
-  }
-
+for (let address of inputArray) {
+  console.log(address);
+  processAddress(address);
+  input.style.borderColor="green"
+}
+errorContainer.innerHTML='';
 }
 
 function addToWatchlist() {
