@@ -15,24 +15,6 @@ document.querySelector("form").addEventListener("submit", function (e) {
 
 function processAddress(address) {
   var api_address = api + address;
-  resultTable.innerHTML = "";
-  
-  var headerRow = document.createElement("tr");
-  
-  var addressHeader = document.createElement("th");
-  addressHeader.textContent = "Address";
-  headerRow.appendChild(addressHeader);
-  
-  var pendingRewardHeader = document.createElement("th");
-  pendingRewardHeader.textContent = "Pending Reward";
-  headerRow.appendChild(pendingRewardHeader);
-  
-  var harvestedRewardHeader = document.createElement("th");
-  harvestedRewardHeader.textContent = "Harvested Reward";
-  headerRow.appendChild(harvestedRewardHeader);
-  
-  resultTable.appendChild(headerRow);
-
   if (fetchInProgress) {
     // If fetch is in progress, ignore the click
     return;
@@ -42,6 +24,24 @@ function processAddress(address) {
     .then(response => response.json())
     .then(data => {
       if (data.length > 0) {
+        resultTable.innerHTML = "";
+        
+        var headerRow = document.createElement("tr");
+        
+        var addressHeader = document.createElement("th");
+        addressHeader.textContent = "Address";
+        headerRow.appendChild(addressHeader);
+        
+        var pendingRewardHeader = document.createElement("th");
+        pendingRewardHeader.textContent = "Pending Reward";
+        headerRow.appendChild(pendingRewardHeader);
+        
+        var harvestedRewardHeader = document.createElement("th");
+        harvestedRewardHeader.textContent = "Harvested Reward";
+        headerRow.appendChild(harvestedRewardHeader);
+        
+        resultTable.appendChild(headerRow);
+
         var dataRow = document.createElement("tr");
 
         var addressCell = document.createElement("td");
@@ -57,17 +57,15 @@ function processAddress(address) {
         dataRow.appendChild(harvestedRewardCell);
 
         resultTable.appendChild(dataRow);
+        if (!watchlist.includes(address)) {
+          watchlist.push(address);
+          updateWatchlist();
+          saveWatchlistToLocalStorage();
+        }
 
         // Add the address to the watchlist
       } else {
         alert(`No data found for address: ${address}`);
-      }
-    })
-    .then(()=>{
-      if (!watchlist.includes(address)) {
-        watchlist.push(address);
-        updateWatchlist();
-        saveWatchlistToLocalStorage();
       }
     })
     .catch(error => {
@@ -108,31 +106,44 @@ function removeFromWatchlist(address) {
 }
 
 function updateWatchlist() {
-  var watchlistItems = document.getElementById("watchlistItems");
-  watchlistItems.innerHTML = ""; // Clear existing watchlist items
-
-  watchlist.forEach(function (address) {
-    var listItem = document.createElement("li");
-    listItem.textContent = address;
-
-    var watchlistBtn = document.createElement('div');
-    var searchBtn = document.createElement('button');
-    searchBtn.textContent = 'Search';
-    searchBtn.onclick = function () {
-      processAddress(address);
+    var watchlistItems = document.getElementById("watchlistItems");
+    watchlistItems.innerHTML = "";
+    if(watchlist.length>0){
+    var headerRow = document.createElement("tr");
+    
+    var addressHeader = document.createElement("th");
+    addressHeader.textContent = "Address";
+    headerRow.appendChild(addressHeader);
+    watchlistItems.appendChild(headerRow);
     }
-    var deleteBtn = document.createElement("button");
-    deleteBtn.classList = 'delete';
-    deleteBtn.textContent = "Delete";
-    deleteBtn.onclick = function () {
-      removeFromWatchlist(address);
-    };
-    watchlistBtn.appendChild(searchBtn);
-    watchlistBtn.appendChild(deleteBtn);
-    listItem.appendChild(watchlistBtn);
-    watchlistItems.appendChild(listItem);
-  });
-}
+    
+    watchlist.forEach(function (address) {
+      
+      var addressCell = document.createElement("tr");
+      addressCell.id="listItems";
+      var addressLink= document.createElement("a");
+      addressLink.textContent= address;
+      addressLink.href=`https://debank.com/profile/${address}`;
+      addressCell.appendChild(addressLink);
+      
+      var watchlistBtn = document.createElement("div");
+      var searchBtn = document.createElement("button");
+      searchBtn.textContent = "Search";
+      searchBtn.onclick = function () {
+        processAddress(address);
+      }
+      var deleteBtn = document.createElement("button");
+      deleteBtn.classList = "delete";
+      deleteBtn.textContent = "Delete";
+      deleteBtn.onclick = function () {
+        removeFromWatchlist(address);
+      };
+      watchlistBtn.appendChild(searchBtn);
+      watchlistBtn.appendChild(deleteBtn);
+      addressCell.appendChild(watchlistBtn);
+      watchlistItems.appendChild(addressCell);
+    });
+  }
 
 function saveWatchlistToLocalStorage() {
   localStorage.setItem('watchlist', JSON.stringify(watchlist));

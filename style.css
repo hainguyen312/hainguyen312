@@ -25,10 +25,9 @@ body, h1, h2, h3, p, ul, li, table, th, td {
     align-items: center;
   }
   
-  .nav a {
+  a {
     text-decoration: none;
     color: #000;
-    font-weight: bold;
   }
   
   /* Style the main content container */
@@ -77,6 +76,7 @@ body, h1, h2, h3, p, ul, li, table, th, td {
     border: 1px solid #ddd;
     padding: 10px;
     text-align: left;
+    list-style-type: none;
   }
   
   th {
@@ -94,11 +94,7 @@ body, h1, h2, h3, p, ul, li, table, th, td {
     margin-bottom: 10px;
   }
   
-  ul {
-    list-style-type: none;
-  }
-  
-  li {
+  #listItems {
     display: flex;
     justify-content: space-between;
     align-items: center;
