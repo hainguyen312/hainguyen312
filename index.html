@@ -1,38 +1,27 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Check Wallet</title>
-  <link rel="stylesheet" href="./style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tìm đường đi</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha512-Zcn6bjR/8RZbLEpLIeOwNtzREBAJnUKESxces60Mpoj+2okopSAcSUIUOseddDm0cxnGQzxIR7vJgsLZbdLE3w==" crossorigin="anonymous">
+    <link rel="stylesheet" href="./style.css">
 </head>
-
 <body>
-    <div class="nav-container">
-        <div class="nav">
-            <a href="https://holdstation.com/" style="font-weight: bold;">HOLDSTATION </a>
-        </div>
-      </div>
-      <div class="app-container">
-          <main class="home">
-            <div class="search-bar">
-              <h2>Check Wallet</h2>
-              <form autocomplete="off">
-                <input id="Input" type="text" placeholder="Search an Address" />
-                <button id="searchButton">Search</button>
-                <button id="addToWatchlistButton">Add to watchlist</button>
-              </form>
-              <div id="errorContainer"></div>
-            </div>
-            <table id="result"></table>
-            <div id="watchlist">
-              <h2 class="title">My Wallets</h2>
-              <table id="watchlistItems"></table>
-            </div>
-          </main>
-      </div>
-  <script src="./app.js"></script>
-</body>
+    <input id="startPlace" type="text" placeholder="Nhập id điểm xuất phát: ">
+    <input id="targetPlace"type="text" placeholder="Nhập id đích đến: ">
+    <select name="Chọn Giải thuật" id="methodSelection">
+        <option value="Dijkstra">Thuật toán Dijkstra</option>
+        <option value="BFS">Thuật toán BFS</option>
+        <option value="DFS">Thuật toán DFS</option>
+        <option value="A*">Thuật toán A*</option>
+    </select>
+        <button id="startFinding">Bắt đầu tìm kiếm</button>
+    <div id="map"></div>
 
+    <script type="module" src="./dijkstra.js"></script>
+    <script type="module" src="./bfs.js"></script>
+    <script type="module" src="./main.js"></script>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha512-BwHfrr4c9kmRkLw6iXFdzcdWV/PGkVgiIyIWLLlTSXzWQzxuSg4DiQUCpauz/EWjgk5TYQqX/kvn9pG1NpYfqg==" crossorigin="anonymous"></script>
+</body>
 </html>
