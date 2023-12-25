@@ -1,27 +1,45 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tìm đường đi</title>
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha512-Zcn6bjR/8RZbLEpLIeOwNtzREBAJnUKESxces60Mpoj+2okopSAcSUIUOseddDm0cxnGQzxIR7vJgsLZbdLE3w==" crossorigin="anonymous">
-    <link rel="stylesheet" href="./style.css">
+    <title>Map Routing</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 </head>
-<body>
-    <input id="startPlace" type="text" placeholder="Nhập id điểm xuất phát: ">
-    <input id="targetPlace"type="text" placeholder="Nhập id đích đến: ">
-    <select name="Chọn Giải thuật" id="methodSelection">
-        <option value="Dijkstra">Thuật toán Dijkstra</option>
-        <option value="BFS">Thuật toán BFS</option>
-        <option value="DFS">Thuật toán DFS</option>
-        <option value="A*">Thuật toán A*</option>
-    </select>
-        <button id="startFinding">Bắt đầu tìm kiếm</button>
-    <div id="map"></div>
 
-    <script type="module" src="./dijkstra.js"></script>
-    <script type="module" src="./bfs.js"></script>
-    <script type="module" src="./main.js"></script>
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha512-BwHfrr4c9kmRkLw6iXFdzcdWV/PGkVgiIyIWLLlTSXzWQzxuSg4DiQUCpauz/EWjgk5TYQqX/kvn9pG1NpYfqg==" crossorigin="anonymous"></script>
+<body>
+    <div id="mainContainer">
+        <div id="mapDiv">
+            <div id="map">
+                <button id="showDataButton">
+                    Show data
+                </button>
+                <button id="refreshButton">
+                    Refresh map
+                </button>
+                <button id="visualizationButton" style="justify-content:center">
+                    Visualization mode: <strong>&nbsp;OFF</strong>
+                </button>
+                <div id="listActionDiv" class="dropdown">
+                    <button id="algo" class="dropbtn">Dijkstra's Algorithm</button>
+                    <img src="downIcon.svg" class="img"> 
+                    <div id="dropdownItem" class="dropdown-content">
+                        <a>Dijkstra's Algorithm</a>
+                        <a>Breadth First Search</a>
+                        <a>Depth First Search</a>
+                        <a>A* Search</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script src="script.js"></script>
 </body>
+
 </html>
