@@ -15,12 +15,14 @@ document.querySelector("form").addEventListener("submit", function (e) {
 });
 
 function processAddress(address) {
-  var api_address = api + address;
   if (fetchInProgress) {
     // If fetch is in progress, ignore the click
     return;
   }
-  resultTable.innerHTML="";
+  
+  // Clear existing table content
+  errorContainer.innerHTML='';
+  
   var headerRow = document.createElement("tr");
   
   var addressHeader = document.createElement("th");
@@ -36,60 +38,60 @@ function processAddress(address) {
   headerRow.appendChild(harvestedRewardHeader);
   
   resultTable.appendChild(headerRow);
-  fetchInProgress=true;
+  
+  fetchInProgress = true;
+  
+  var api_address = api + address;
   fetch(api_address)
-    .then(response => response.json())
-    .then(data => {
-      if (data.length > 0) {
-        var dataRow = document.createElement("tr");
-
-        var addressCell = document.createElement("td");
-        addressCell.textContent = data[0].address;
-        dataRow.appendChild(addressCell);
-
-        var pendingRewardCell = document.createElement("td");
-        pendingRewardCell.textContent = data[0].pendingReward;
-        dataRow.appendChild(pendingRewardCell);
-
-        var harvestedRewardCell = document.createElement("td");
-        harvestedRewardCell.textContent = data[0].harvestedReward;
-        dataRow.appendChild(harvestedRewardCell);
-
-        resultTable.appendChild(dataRow);
-        if (!watchlist.includes(address)) {
-          watchlist.push(address);
-          updateWatchlist();
-          saveWatchlistToLocalStorage();
-        }
-
-        // Add the address to the watchlist
-      } else {
-        input=document.getElementById("Input");
-        input.style.borderColor="red";
-        var errorDiv =document.createElement("div");
-        errorDiv.style.color = "red";
-        errorDiv.textContent = `Error: No data found for address ${address}`;
-        errorContainer.appendChild(errorDiv);
-        input.parentElement.parentElement.append(errorDivContainer);
+  .then(response => response.json())
+  .then(data => {
+    if (data.length > 0) {
+      var dataRow = document.createElement("tr");
+      
+      var addressCell = document.createElement("td");
+      addressCell.textContent = data[0].address;
+      dataRow.appendChild(addressCell);
+      
+      var pendingRewardCell = document.createElement("td");
+      pendingRewardCell.textContent = data[0].pendingReward;
+      dataRow.appendChild(pendingRewardCell);
+      
+      var harvestedRewardCell = document.createElement("td");
+      harvestedRewardCell.textContent = data[0].harvestedReward;
+      dataRow.appendChild(harvestedRewardCell);
+      
+      resultTable.appendChild(dataRow);
+      if (!watchlist.includes(address)) {
+        watchlist.push(address);
+        updateWatchlist();
+        saveWatchlistToLocalStorage();
       }
-    })
-    .catch(error => {
-      console.error(error);
-    });
-    fetchInProgress=false;
+    } else {
+      input=document.getElementById("Input");
+      input.style.borderColor="red";
+      var errorDiv =document.createElement("div");
+      errorDiv.style.color = "red";
+      errorDiv.textContent = `Error: No data found for address ${address}`;
+      errorContainer.appendChild(errorDiv);
+      input.parentElement.parentElement.append(errorDivContainer);
+    }
+    
+    fetchInProgress = false;
+  })
+  .catch(error => {
+    console.error('Error fetching data:', error);
+    fetchInProgress = false;
+  });
 }
-
 function results() {
-input = document.getElementById("Input");
-inputArray = input.value.trim().split(",");
-console.log(inputArray)
-for (let address of inputArray) {
-  console.log(address);
-  processAddress(address);
-  input.style.borderColor="green"
-}
-errorContainer.innerHTML='';
-}
+    input = document.getElementById("Input").value;
+    inputArray = input.split(",");
+    console.log(inputArray);
+    for (let address of inputArray) {
+      console.log(address);
+      processAddress(address);
+    }
+  }
 
 function addToWatchlist() {
 input = document.getElementById("Input").value.trim();
